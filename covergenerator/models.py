@@ -25,12 +25,22 @@ MISSIONS_CHOICES = [
     ('cybersecurite', 'Cybersecurité'),
 ]
 
+STATUS_CHOICE = [
+    ('pending', 'Pending'),
+    ('rh_interview', 'RH interview'),
+    ('tech_iterview', 'Tech interview'),
+    ('final_interview', 'Final interview'),
+    ('declined', 'Declined'),
+    ('hired', 'Hired'),
+]
+
 class Application(models.Model):
 
     company_name = models.CharField(max_length=255)
     job_offer_link = job_offer_link = models.URLField(max_length=255)
     date = models.DateTimeField(auto_now_add=True)
     mission = models.CharField(max_length=50, choices=MISSIONS_CHOICES)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICE, default='pending')
     python = models.BooleanField(default=False)
     django = models.BooleanField(default=False)
     html_css = models.BooleanField(default=False)
