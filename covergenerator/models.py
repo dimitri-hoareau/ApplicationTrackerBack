@@ -51,6 +51,7 @@ class Application(models.Model):
     tailwind = models.BooleanField(default=False)
     node = models.BooleanField(default=False)
     vuejs = models.BooleanField(default=False)
+    bdd = models.BooleanField(default=False)
     devops = models.BooleanField(default=False)
     java = models.BooleanField(default=False)
     angular = models.BooleanField(default=False)

@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+import sys
 
 from pathlib import Path
 
@@ -27,6 +28,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+print("**************************************************")
+print("sys.stdout.encoding:", sys.stdout.encoding)
+print("sys.getdefaultencoding():", sys.getdefaultencoding())
+
+
 
 # Application definition
 
@@ -39,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'covergenerator',
+        "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -49,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'applicationtracker.urls'
@@ -77,10 +86,24 @@ WSGI_APPLICATION = 'applicationtracker.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'coverletter_db',
+        'USER': 'coverletter_user',
+        'PASSWORD': 'coverletter_password',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'OPTIONS': {
+            'client_encoding': 'UTF8',
+        },
     }
 }
+
+
+db_config = DATABASES.get('default', {})
+dsn = "dbname=%(NAME)s user=%(USER)s password=%(PASSWORD)s host=%(HOST)s port=%(PORT)s" % db_config
+print("****************************************************")
+print("DSN utilisé :", dsn)
+
 
 
 # Password validation
@@ -123,3 +146,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ALLOW_ALL_ORIGINS = True
